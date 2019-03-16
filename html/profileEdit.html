@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+    <html lang="en">
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <meta http-equiv="X-UA-Compatible" content="ie=edge">
+            <link rel="stylesheet" type="text/css" href="../style/profileEdit.css">
+            <link href="https://fonts.googleapis.com/css?family=Libre+Barcode+39+Text|Open+Sans:700|Roboto:900" rel="stylesheet">
+            <link rel="icon" href="../images/logo.png">
+            <title>Profile Edit - NIKOLA'S BOOKSTORE</title>
+        </head>
+        <body>
+            <header>
+                <nav>
+                    <img id="logo" src="../images/logo.png">
+                    <ul>
+                        <li><a href="login.html">SIGN OUT</a></li>
+                        <li><a href="shoppingCart.html" id="cart"> 0 <img src="../images/cart.png" width="13px" height="13px"></a></li>
+                        <li><a href="profile.html" id="loggedIn">PROFILE</a></li>
+                        <li><a href="aboutUs.html">ABOUT US</a></li>
+                        <li><a href="main.html">MAIN MENU</a></li>
+                    </ul>
+                </nav>
+            </header>
+            <footer>
+                <div id="footerBatch">
+                    <p><b>Copyright© 2018 by <a href="https://github.com/bullfroggie">Nikola Lausev</a></b></p>
+                </div>
+            </footer>
+            <script type="text/javascript" id="script">
+                function quantitySum() {
+                    let books = JSON.parse(window.localStorage.getItem("currentUser"));
+                    let sum = 0;
+
+                    for(let user of books.cart) {
+                        sum += user.cartBookQuantity;
+                    }
+
+                    return sum;
+                }
+
+                document.body.onload = function() {
+                    // Function for initializing the main menu
+
+                    let loggedInAs = document.getElementById("loggedIn");
+                    let loggedInUser = JSON.parse(window.localStorage.getItem("currentUser"));
+                    loggedInAs.innerHTML = `${loggedInUser.loggedIn}'S PROFILE`;
+
+                    let cart = document.getElementById("cart");
+                    cart.innerHTML = `${quantitySum()}  <img src="../images/cart.png" width="15px" height="15px">`;
+                    buildProfile();
+                }
+
+                function getCurrentUserFromLocalStorage() {
+                    let usr = JSON.parse(window.localStorage.getItem("currentUser"));
+                    return usr;
+                }
+
+                function getUsersFromLocalStorage() {
+                    let usrs = JSON.parse(window.localStorage.getItem("users"));
+                    return usrs;
+                }
+
+                
+                function buildProfile() {
+                    let users = getUsersFromLocalStorage();
+                    let currentUser = getCurrentUserFromLocalStorage();
+
+                    for(let user of users) {
+                        if(currentUser.loggedIn == user.username) {
+                            let users = getUsersFromLocalStorage();
+                            let currentUser = getCurrentUserFromLocalStorage();
+
+                            let mainCard = document.createElement("main");
+                            mainCard.innerHTML = "";
+
+                            let scriptCard = document.getElementById("script");
+                            scriptCard.before(mainCard);
+
+                            let fieldsetCard = document.createElement("fieldset");
+                            mainCard.appendChild(fieldsetCard);
+
+                            let profileCard = document.createElement("div");
+                            profileCard.setAttribute("id", "profile");
+                            fieldsetCard.appendChild(profileCard);
+
+                            let profileImgCard = document.createElement("img");
+                            profileImgCard.setAttribute("id", "profilePicture");
+                            profileImgCard.src = user.profileImg;
+                            profileCard.appendChild(profileImgCard);
+
+                            let name = document.createElement("h1");
+                            name.setAttribute("id", "name");
+                            name.innerHTML = `${user.firstName} ${user.lastName}`;
+                            profileCard.appendChild(name);
+
+                            let from = document.createElement("textarea");
+                            from.style.width = "280px";
+                            from.style.height = "50px";
+                            from.style.resize = "vertical";
+                            from.setAttribute("id", "from");
+                            from.innerHTML = `${user.from}`;
+                            profileCard.appendChild(from);
+
+                            let par1 = document.createElement("p");
+                            let imgEdit = document.createElement("input");
+                            imgEdit.type = "file";
+                            imgEdit.setAttribute("id", "editImg");
+                            par1.appendChild(imgEdit);
+                            profileCard.appendChild(par1);
+
+                            let par2 = document.createElement("p");
+                            let imgUrl = document.createElement("input");
+                            imgUrl.type = "text";
+                            imgUrl.setAttribute("id", "imgUrl");
+                            imgUrl.placeholder = "..OR IMAGE URL HERE";
+                            par2.appendChild(imgUrl);
+                            profileCard.appendChild(par2);
+
+                            let par3 = document.createElement("p");
+                            let confirmEdit = document.createElement("button");
+                            confirmEdit.setAttribute("id", "confirmEdit");
+                            confirmEdit.type = "button";
+                            confirmEdit.innerHTML = "SAVE EDIT";
+                            confirmEdit.setAttribute("onclick", "edit()");
+                            par3.appendChild(confirmEdit);
+                            profileCard.appendChild(par3);
+                            
+                            let aboutMeCard = document.createElement("div");
+                            aboutMeCard.setAttribute("id", "aboutMe");
+                            fieldsetCard.appendChild(aboutMeCard);
+
+                            let aboutMeTitle = document.createElement("h2");
+                            aboutMeTitle.innerHTML = "ABOUT ME";
+                            aboutMeCard.appendChild(aboutMeTitle);
+
+                            let aboutMePar = document.createElement("textarea");
+                            aboutMePar.innerHTML = user.aboutMe;
+                            aboutMePar.setAttribute("id", "edit1");
+                            aboutMeCard.appendChild(aboutMePar);
+
+                            let favBooksCard = document.createElement("div");
+                            favBooksCard.setAttribute("id", "favBooks");
+                            fieldsetCard.appendChild(favBooksCard);
+
+                            let favBooksTitle = document.createElement("h2");
+                            favBooksTitle.innerHTML = "FAVORITE BOOKS";
+                            favBooksCard.appendChild(favBooksTitle);
+
+                            let favBooksPar = document.createElement("textarea");
+                            favBooksPar.innerHTML = user.favBooks;
+                            favBooksPar.setAttribute("id", "edit2");
+                            favBooksCard.appendChild(favBooksPar);
+
+                            let favQuotesCard = document.createElement("div");
+                            favQuotesCard.setAttribute("id", "favQuotes");
+                            fieldsetCard.appendChild(favQuotesCard);
+
+                            let favQuotesTitle = document.createElement("h2");
+                            favQuotesTitle.innerHTML = "FAVORITE QUOTES";
+                            favQuotesCard.appendChild(favQuotesTitle);
+
+                            let favQuotesPar = document.createElement("textarea");
+                            favQuotesPar.innerHTML = user.favQuotes;
+                            favQuotesPar.setAttribute("id", "edit3");
+                            favQuotesCard.appendChild(favQuotesPar);
+                        }
+                    }
+                }
+
+                function imgPath() {
+                    let editedImage = document.getElementById("editImg").value.split("\\").pop();
+
+                    return `../images/profilePictures/${editedImage}`;
+                }
+
+                function edit() {
+                    let currentUser = getCurrentUserFromLocalStorage();
+                    let users = getUsersFromLocalStorage();
+
+                    let editFrom = document.getElementById("from").value;
+                    let editedImg = document.getElementById("editImg").files;
+                    let imgUrl = document.getElementById("imgUrl").value;
+                    let aboutMeEdit = document.getElementById("edit1").value;
+                    let favBooksEdit = document.getElementById("edit2").value;
+                    let favQuotesEdit = document.getElementById("edit3").value;
+
+                    for (let user of users) {
+                        if(currentUser.loggedIn == user.username) {
+                            user.from = editFrom;
+                            user.aboutMe = aboutMeEdit;
+                            user.favBooks = favBooksEdit;
+                            user.favQuotes = favQuotesEdit;
+                            if(editedImg.length != 0){
+                                user.profileImg = imgPath();
+                            }
+                            if(imgUrl.length != 0){
+                                user.profileImg = imgUrl;
+                            }
+                            break;
+                        }
+                    }
+                    window.localStorage.setItem("users", JSON.stringify(users));
+                    buildProfile();
+                }
+
+            </script>
+        </body>
+    </html>

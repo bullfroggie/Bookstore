@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+    <html lang="en">
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <meta http-equiv="X-UA-Compatible" content="ie=edge">
+            <link rel="stylesheet" type="text/css" href="../style/profile.css">
+            <link href="https://fonts.googleapis.com/css?family=Libre+Barcode+39+Text|Open+Sans:700|Roboto:900" rel="stylesheet">
+            <link rel="icon" href="../images/logo.png">
+            <title id="title">Profile - NIKOLA'S BOOKSTORE</title>
+        </head>
+        <body>
+            <header>
+                <nav>
+                    <img id="logo" src="../images/logo.png">
+                    <ul>
+                        <li><a href="login.html">SIGN OUT</a></li>
+                        <li><a href="shoppingCart.html" id="cart"> 0 <img src="../images/cart.png" width="13px" height="13px"></a></li>
+                        <li><a href="profile.html" id="loggedIn">PROFILE</a></li>
+                        <li><a href="aboutUs.html">ABOUT US</a></li>
+                        <li><a href="main.html">MAIN MENU</a></li>
+                    </ul>
+                </nav>
+            </header>
+            <footer>
+                <div id="footerBatch">
+                    <p><b>Copyright© 2018 by <a href="https://github.com/bullfroggie">Nikola Lausev</a></b></p>
+                </div>
+            </footer>
+            <script type="text/javascript">
+                function quantitySum() {
+                    let books = JSON.parse(window.localStorage.getItem("currentUser"));
+                    let sum = 0;
+
+                    for(let user of books.cart) {
+                        sum += user.cartBookQuantity;
+                    }
+
+                    return sum;
+                }
+
+                document.body.onload = function() {
+                    // Function for initializing the main menu
+
+                    let loggedInAs = document.getElementById("loggedIn");
+                    let loggedInUser = JSON.parse(window.localStorage.getItem("currentUser"));
+                    let titleID = document.getElementById("title");
+                    loggedInAs.innerHTML = `${loggedInUser.loggedIn}'S PROFILE`;
+                    title.innerHTML = `${loggedInUser.loggedIn}'s profile - NIKOLA'S BOOKSTORE`;
+
+                    let cart = document.getElementById("cart");
+                    cart.innerHTML = `${quantitySum()}  <img src="../images/cart.png" width="15px" height="15px">`;
+                    buildProfile();
+                }
+
+                function getCurrentUserFromLocalStorage() {
+                    let usr = JSON.parse(window.localStorage.getItem("currentUser"));
+                    return usr;
+                }
+
+                function getUsersFromLocalStorage() {
+                    let usrs = JSON.parse(window.localStorage.getItem("users"));
+                    return usrs;
+                }
+
+                
+                function buildProfile() {
+                    let users = getUsersFromLocalStorage();
+                    let currentUser = getCurrentUserFromLocalStorage();
+
+                    for(let user of users) {
+                        if(currentUser.loggedIn == user.username) {
+                            let users = getUsersFromLocalStorage();
+                            let currentUser = getCurrentUserFromLocalStorage();
+
+                            let mainCard = document.createElement("main");
+                            document.body.appendChild(mainCard);
+
+                            let fieldsetCard = document.createElement("fieldset");
+                            mainCard.appendChild(fieldsetCard);
+
+                            let profileCard = document.createElement("div");
+                            profileCard.setAttribute("id", "profile");
+                            fieldsetCard.appendChild(profileCard);
+
+                            let profileImgCard = document.createElement("img");
+                            profileImgCard.setAttribute("id", "profilePicture");
+                            profileImgCard.src = user.profileImg;
+                            profileCard.appendChild(profileImgCard);
+
+                            let name = document.createElement("h1");
+                            name.setAttribute("id", "name");
+                            name.innerHTML = `${user.firstName} ${user.lastName}`;
+                            profileCard.appendChild(name);
+
+                            let from = document.createElement("p");
+                            from.setAttribute("id", "from");
+                            from.innerHTML = `🏡 ${user.from}`;
+                            profileCard.appendChild(from);
+
+                            let par1 = document.createElement("p");
+                            let butt1 = document.createElement("button");
+                            let anch1 = document.createElement("a");
+                            anch1.href = "profileEdit.html";
+                            anch1.innerHTML = "EDIT PROFILE";
+                            butt1.type = "button";
+                            let par2 = document.createElement("p");
+                            let butt2 = document.createElement("button");
+                            let anch2 = document.createElement("a");
+                            anch2.href = "purchaseHistory.html";
+                            anch2.innerHTML = "PURCHASE HISTORY";
+                            butt2.type = "button";
+                            par1.appendChild(butt1);
+                            butt1.appendChild(anch1);
+                            par2.appendChild(butt2);
+                            butt2.appendChild(anch2);
+                            profileCard.appendChild(par1);
+                            profileCard.appendChild(par2);
+
+                            let aboutMeCard = document.createElement("div");
+                            aboutMeCard.setAttribute("id", "aboutMe");
+                            fieldsetCard.appendChild(aboutMeCard);
+
+                            let aboutMeTitle = document.createElement("h2");
+                            aboutMeTitle.innerHTML = "ABOUT ME";
+                            aboutMeCard.appendChild(aboutMeTitle);
+
+                            let aboutMePar = document.createElement("p");
+                            aboutMePar.innerHTML = user.aboutMe;
+                            aboutMeCard.appendChild(aboutMePar);
+
+                            let favBooksCard = document.createElement("div");
+                            favBooksCard.setAttribute("id", "favBooks");
+                            fieldsetCard.appendChild(favBooksCard);
+
+                            let favBooksTitle = document.createElement("h2");
+                            favBooksTitle.innerHTML = "FAVORITE BOOKS";
+                            favBooksCard.appendChild(favBooksTitle);
+
+                            let favBooksPar = document.createElement("p");
+                            favBooksPar.innerHTML = user.favBooks;
+                            favBooksCard.appendChild(favBooksPar);
+
+                            let favQuotesCard = document.createElement("div");
+                            favQuotesCard.setAttribute("id", "favQuotes");
+                            fieldsetCard.appendChild(favQuotesCard);
+
+                            let favQuotesTitle = document.createElement("h2");
+                            favQuotesTitle.innerHTML = "FAVORITE QUOTES";
+                            favQuotesCard.appendChild(favQuotesTitle);
+
+                            let favQuotesPar = document.createElement("p");
+                            favQuotesPar.innerHTML = user.favQuotes;
+                            favQuotesCard.appendChild(favQuotesPar);
+                        }
+                    }
+                }
+
+            </script>
+        </body>
+    </html>

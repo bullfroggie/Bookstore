@@ -1,0 +1,197 @@
+* {
+    margin: 0px;
+    padding: 0px;
+}
+
+html, body {
+    margin:0px;
+    padding:0px;
+    height:100%;
+    max-width: 100%;
+    overflow-x: hidden;
+}
+
+header {
+    width: 100%;
+}
+
+
+footer {
+    position:relative;
+    bottom:0px;
+    width:100%;
+    height:60px;
+    background-color: #FFC400;
+}
+
+fieldset {
+    margin-top: 150px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    padding-left: 15px;
+    padding-right: 15px;
+    margin-left: 25%;
+    margin-right: 25%;
+    margin-bottom: 10%;
+    border-radius: 35px 0px;
+    font-family: 'Roboto', sans-serif;
+}
+
+fieldset #addToCart img {
+    float: left;
+}
+
+fieldset sup {
+    float: right;
+    margin-right: 5%;
+}
+
+fieldset form button {
+    background-color: #FFC400;
+    border: none;
+    border-radius: 10px;
+    padding: 5px;
+    font-family: 'Open Sans', sans-serif;
+}
+
+fieldset form input {
+    width: 25px;
+    height: 26px;
+    text-align: center;
+    border-radius: 5px;
+}
+
+fieldset form input:focus {
+    outline: none;
+}
+
+form {
+    float: right;
+    margin-right: -140px;
+    margin-bottom: 30px;
+}
+
+#addToCart, #deleteBttn {
+    font-size: 15px;
+    cursor: pointer;
+}
+
+#deleteBttn {
+    font-family: 'Open Sans', sans-serif;
+    padding: 10px;
+    font-size: 20px;
+    margin-left: 45px;
+    cursor: pointer;
+}
+
+#deleteBttn a {
+    text-decoration: none;
+    color: black;
+}
+
+
+#addToCart:hover, .quantityBttn:hover, #deleteBttn:hover {
+    background-color: orange;
+}
+
+#addToCart:focus, .quantityBttn:focus, #deleteBttn:focus {
+    outline: none;
+}
+
+.quantityBttn {
+    cursor: pointer;
+    font-size: 15px;
+    margin-left: 5px;
+}
+
+fieldset form {
+    margin-top: 11%;
+}
+
+fieldset p {
+    margin-right: 3%;
+    margin-left: 3%;
+    text-align: center;
+    font-family: 'Open Sans', sans-serif;
+}
+
+legend {
+    text-align: center;
+    font-family: 'Libre Barcode 39 Text', cursive;
+    font-size: 65px;
+}
+
+
+#logo {
+    position: fixed;
+    left: 0px;
+    height: 170px;
+    width: 170px;
+    margin-left: 25px;
+    float: left;
+}
+
+#footerBatch {
+    width: 320px;
+    height: 50px;
+    margin: 0px auto;
+}
+
+#footerBatch p {
+    padding-top: 15px;
+    text-align: center;
+}
+
+#footerBatch p a {
+    text-decoration: none;
+}
+
+ul {
+    margin-top: 20px;
+    padding-bottom: 50px;
+    list-style-type: none;
+    float: right;
+}
+
+li {
+    display: block;
+    float: right;
+}
+
+li a {
+    color: #FFC400;
+    padding: 15px 35px;
+    text-decoration: none;
+    background-color: #000000;
+    margin-left: 2px;
+    border-radius: 10px 0px;
+    cursor: pointer;
+    font-family: 'Open Sans', sans-serif;
+    box-shadow: 12px 10px 13px 1px rgba(0,0,0,0.75);
+}
+
+li a:hover {
+    background-color: #FFC400;
+    color: #000000;
+}
+
+#quantity::-webkit-outer-spin-button,
+#quantity::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0px;
+}
+
+#quantity {
+    -moz-appearance:textfield;
+    margin-left: 5px;
+}
+
+#cover {
+    width: 300px;
+    height: 450px;
+    margin-left: 75px;
+    margin-right: 40px;
+    float: left;
+    margin-bottom: 10%;
+    border-radius: 7px;
+}

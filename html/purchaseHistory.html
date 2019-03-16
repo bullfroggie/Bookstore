@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+    <html lang="en">
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <meta http-equiv="X-UA-Compatible" content="ie=edge">
+            <link rel="stylesheet" type="text/css" href="../style/purchaseHistory.css">
+            <link href="https://fonts.googleapis.com/css?family=Libre+Barcode+39+Text|Open+Sans:700|Roboto:900" rel="stylesheet">
+            <link rel="icon" href="../images/logo.png">
+            <title> Purchase history - NIKOLA'S BOOKSTORE</title>
+        </head>
+        <body>
+            <header>
+                <nav id="nav">
+                    <img id="logo" src="../images/logo.png">
+                </nav>
+                <div id="headerBatch">
+                    <p id="welcome">purchase <span>history</span></p>
+                </div>
+            </header>
+            <div id="main">
+            </div>
+            <script>
+                    function dedicatedMenu() {
+                        let currentUser = JSON.parse(window.localStorage.getItem("currentUser"));
+                        let nav = document.getElementById("nav");
+    
+                        if(currentUser.type == "user") {
+                            let navMenu = document.createElement("ul");
+                            nav.appendChild(navMenu);
+                            let li1 = document.createElement("li");
+                            let li2 = document.createElement("li");
+                            let li3 = document.createElement("li");
+                            let li4 = document.createElement("li");
+                            let li5 = document.createElement("li");
+                            let anch1 = document.createElement("a");
+                            anch1.href = "main.html";
+                            anch1.innerHTML = "MAIN MENU";
+                            li1.appendChild(anch1);
+                            let anch2 = document.createElement("a");
+                            anch2.href = "aboutUs.html";
+                            anch2.innerHTML = "ABOUT US";
+                            li2.appendChild(anch2);
+                            let anch3 = document.createElement("a");
+                            anch3.href = "profile.html";
+                            anch3.innerHTML = `${currentUser.loggedIn}'s PROFILE`;
+                            anch3.setAttribute("id", "loggedIn");
+                            li3.appendChild(anch3);
+                            let anch4 = document.createElement("a");
+                            anch4.href = "shoppingCart.html";
+                            anch4.setAttribute("id", "cart");
+                            li4.appendChild(anch4);
+                            let anch5 = document.createElement("a");
+                            anch5.innerHTML = "SIGN OUT";
+                            anch5.href = "login.html";
+                            li5.appendChild(anch5);
+                            navMenu.appendChild(li5);
+                            navMenu.appendChild(li4);
+                            navMenu.appendChild(li3);
+                            navMenu.appendChild(li2);
+                            navMenu.appendChild(li1);
+                        }
+                        if(currentUser.type == "admin") {
+                            let navMenu = document.createElement("ul");
+                            nav.appendChild(navMenu);
+                            let li1 = document.createElement("li");
+                            let li2 = document.createElement("li");
+                            let li3 = document.createElement("li");
+                            let li4 = document.createElement("li");
+                            let anch1 = document.createElement("a");
+                            anch1.href = "main.html";
+                            anch1.innerHTML = "MAIN MENU";
+                            li1.appendChild(anch1);
+                            let anch2 = document.createElement("a");
+                            anch2.href = "newBookAdding.html";
+                            anch2.innerHTML = "ADD A NEW BOOK";
+                            li2.appendChild(anch2);
+                            let anch3 = document.createElement("a");
+                            anch3.href = "adminRegistration.html";
+                            anch3.innerHTML = "ADMIN REGISTRATION";
+                            li3.appendChild(anch3);
+                            let anch4 = document.createElement("a");
+                            anch4.href = "login.html";
+                            anch4.innerHTML = "SIGN OUT";
+                            li4.appendChild(anch4);
+                            navMenu.appendChild(li4);
+                            navMenu.appendChild(li3);
+                            navMenu.appendChild(li2);
+                            navMenu.appendChild(li1);
+                        }
+                    }
+
+                    function quantitySum() {
+                        let books = JSON.parse(window.localStorage.getItem("currentUser"));
+                        let sum = 0;
+    
+                        for(let user of books.cart) {
+                            sum += user.cartBookQuantity;
+                        }
+    
+                        return sum;
+                    }
+
+                    function buildHistory() {
+                        let purchaseHistory = JSON.parse(window.localStorage.getItem("purchaseHistory"));
+                        let currentUser = JSON.parse(window.localStorage.getItem("currentUser"));
+                        let mainCard = document.getElementById("main");
+
+                        mainCard.innerHTML = `Here you will be able to see all of your previous purchases.`;
+                        mainCard.style.textAlign = "center";
+                        mainCard.style.marginTop = "2%";
+                        mainCard.style.fontFamily = "Open Sans, sans-serif";
+                        mainCard.style.fontSize = "17px";
+                        
+                        let table = document.createElement("table");
+                        table.setAttribute("id", "table");
+                        mainCard.appendChild(table);
+
+                        let header = document.createElement("tr");
+                        header.setAttribute("id", "headers");
+                        table.appendChild(header);
+
+                        let th1 = document.createElement("th");
+                        th1.setAttribute("id", "borderRad1");
+                        th1.innerHTML = "ISBN";
+                        
+                        let th2 = document.createElement("th");
+                        th2.innerHTML = "Book Name";
+
+                        let th3 = document.createElement("th");
+                        th3.innerHTML = "Author";
+
+                        let th4 = document.createElement("th");
+                        th4.innerHTML = "Purchase Date";
+
+                        let th5 = document.createElement("th");
+                        th5.innerHTML = "Quantity";
+
+                        let th6 = document.createElement("th");
+                        th6.setAttribute("id", "borderRad2");
+                        th6.innerHTML = "Paid";
+
+                        header.appendChild(th1);
+                        header.appendChild(th2);
+                        header.appendChild(th3);
+                        header.appendChild(th4);
+                        header.appendChild(th5);
+                        header.appendChild(th6);
+
+                        for(let item of purchaseHistory) {
+                            if(currentUser.loggedIn == item.customer) {
+
+                                let dataRow = document.createElement("tr");
+                                table.appendChild(dataRow);
+
+                                let data1 = document.createElement("td");
+                                data1.innerHTML = item.ISBN;
+
+                                let data2 = document.createElement("td");
+                                data2.innerHTML = item.bookName;
+
+                                let data3 = document.createElement("td");
+                                data3.innerHTML = item.bookAuthor;
+
+                                let data4 = document.createElement("td");
+                                data4.innerHTML = item.purchaseDate;
+
+                                let data5 = document.createElement("td");
+                                data5.innerHTML = item.price / item.originalPrice;
+
+                                let data6 = document.createElement("td");
+                                data6.innerHTML = `${item.price}$`;
+
+                                dataRow.appendChild(data1);
+                                dataRow.appendChild(data2);
+                                dataRow.appendChild(data3);
+                                dataRow.appendChild(data4);
+                                dataRow.appendChild(data5);
+                                dataRow.appendChild(data6);
+                            }
+                        }
+                    }
+    
+
+                    document.body.onload = function() {
+                        // Init function
+
+                        dedicatedMenu();
+                        let cart = document.getElementById("cart");
+                        cart.innerHTML = `${quantitySum()}  <img src="../images/cart.png" width="15px" height="15px">`;
+                        buildHistory();
+                    }
+
+            </script>
+        </body>
+    </html>

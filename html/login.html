@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+    <html lang="en">
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <meta http-equiv="X-UA-Compatible" content="ie=edge">
+            <link rel="stylesheet" type="text/css" href="../style/login.css">
+            <link href="https://fonts.googleapis.com/css?family=Libre+Barcode+39+Text|Open+Sans:700|Roboto:900" rel="stylesheet">
+            <link rel="icon" href="../images/logo.png">
+            <title>Sign in - NIKOLA'S BOOKSTORE</title>
+        </head>
+        <body>
+            <header>
+                <img id="logo" src="../images/logo.png">
+                <ul>
+                    <li><a href="userRegistration.html">SIGN UP</a></li>
+                    <li><a href="login.html">SIGN IN</a></li>
+                </ul>
+            </header>
+            <main>
+                <form name="signIn">
+                    <h1 class="signInHeader">Sign in</h1>
+                    <input id="usrnm" type="text" class="signInInput" placeholder="Username" autofocus required>
+                    <input id="pw" type="password" class="signInInput" placeholder="Password" required>
+                    <button type="submit" class="signInBttn" onclick="signInCheckup(); return false;"> Sign in</button><br><br>
+                    <p id="wrong"></p>
+                    <p class="forgotPw">Forgot the Password? Too bad.</p>
+                </form>
+            </main>
+            <footer>
+                <div id="footerBatch">
+                    <p><b>Copyright© 2018 by <a href="https://github.com/bullfroggie">Nikola Lausev</a></b></p>
+                </div>
+            </footer>
+            <script type="text/javascript">
+
+                function defaultUsers() {
+                    // Function for adding default users to the Local Storage if they don't exist already
+                    
+                    if(!localStorage["users"]){
+                        let defaultUsers = [
+                            {
+                                "firstName": "Robert",
+                                "lastName": "Barlow",
+                                "username": "rob82",
+                                "password": "asdfgh",
+                                "type": "user",
+                                "profileImg": "../images/profilePictures/profile3.jpg",
+                                "aboutMe": `I'm a 27-year-old secretary at a law firm who enjoys travelling, binge-watching boxed sets and vandalising bus stops.
+                                            I find myself inspiring and giving, although I can sometimes be very unfriendly and a bit violent.
+                                            I also started studying law at college but never actually finished the course.`,
+                                "favBooks": "\"One Hundred Years of Solitude\" by Gabriel Garcia Marquez and \"Pride and Prejudice\" by Jane Austen",
+                                "favQuotes": "\"If two wrongs don't make a right, try three\"",
+                                "from": "Pittsburgh, PENN"
+                            },
+                            {
+                                "firstName": "Jenna",
+                                "lastName": "Vorhaul",
+                                "username": "jenn123",
+                                "password": "pw123",
+                                "type": "user",
+                                "profileImg": "../images/profilePictures/profile2.jpeg",
+                                "aboutMe": `I'm a 23-year-old tradesperson's assistant who enjoys repressing minorities, eating out and golf. She is generous and friendly,
+                                            but can also be very untrustworthy and a bit sadistic. I have a severe phobia of bananas, and am obsessed with running`,
+                                "favBooks": "\"Sugar Daddy\" by Lisa Kleypas and \"Heart of Darkness\" by Joseph Conrad",
+                                "favQuotes": "\"My fake plants died because I did not pretend to water them.\"",
+                                "from": "Novo Mesto, SL"                            
+                            },
+                            {
+                                "firstName": "Kevin",
+                                "lastName": "Randall",
+                                "username": "kevRand",
+                                "password": "hgfdsa",
+                                "type": "user",
+                                "profileImg": "../images/profilePictures/profile1.jpg",
+                                "aboutMe": `I'm a 20-year-old part time health centre receptionist who enjoys bridge, jigsaw puzzles and photography.
+                                            I also like to think that I'm considerate and brave, but I can also be very standoffish and a bit untrustworthy. `,
+                                "favBooks": "\"Les Miserables\" by Victor Hugo and \"The Idiot\" by Fyodor Dostoyevsky",
+                                "favQuotes": "\"Man cannot live by bread alone; he must have peanut butter.\"",
+                                "from": "Tatooine"  
+                            }
+                        ];
+                        window.localStorage.setItem("users", JSON.stringify(defaultUsers));
+                    } 
+                }
+
+                 
+                function defaultAdmins() {
+                    // Function for adding default admins to the Local Storage if they don't exist already
+                    
+                    if(!localStorage["admins"]) {
+                        let defaultAdmins = [
+                            {
+                                "firstName": "Ivana",
+                                "lastName": "Ivanovic",
+                                "username": "ivana123",
+                                "password": "asdfgh",
+                                "type": "admin"  
+                            },
+                            {
+                                "firstName": "Ana",
+                                "lastName": "Anic",
+                                "username": "ana321",
+                                "password": "lokijuhy",
+                                "type": "admin"  
+                            },
+                            {
+                                "firstName": "Dusan",
+                                "lastName": "Dusanovic",
+                                "username": "Dusan1531",
+                                "password": "mmnkfa",
+                                "type": "admin"  
+                            }
+                        ];
+                        window.localStorage.setItem("admins", JSON.stringify(defaultAdmins));
+                    }
+                }
+
+                function purchaseBillInit() {
+                    if(!localStorage["purchaseHistory"]) {
+                        let history = [];
+                        window.localStorage.setItem("purchaseHistory", JSON.stringify(history));
+                    }
+                }
+
+
+                document.body.onload = function() {
+                    // Function for initiating the default functions when the page loads
+
+                    defaultUsers();
+                    defaultAdmins();
+                    purchaseBillInit();
+                    localStorage.removeItem("currentUser");
+                }
+
+
+                function signInCheckup() {
+                    /* Function for checking whether the entered credentials are correct
+                       and if so, forward the user to the dedicated main menu */
+
+                    let users = JSON.parse(window.localStorage.getItem("users"));
+                    let admins = JSON.parse(window.localStorage.getItem("admins"));
+                    let username = document.getElementById("usrnm").value;
+                    let password = document.getElementById("pw").value;
+                    let wrong = document.getElementById("wrong");
+                    let message = "Wrong username or password.";
+                    let currentUser = {};
+
+                    let approved = false;
+
+                    for(let user of users) {
+                        if(username == user.username && password == user.password) {
+                            currentUser["loggedIn"] = user.username;
+                            currentUser["cart"] = [];
+                            currentUser["cartNum"] = 0;
+                            currentUser["type"] = user.type;
+                            window.open("main.html", "_self");
+                            localStorage.setItem("currentUser", JSON.stringify(currentUser));
+                            approved = true;
+                            break;
+                        } 
+                    }
+                    for(let admin of admins) {
+                        if(username == admin.username && password == admin.password) {
+                            currentUser["loggedIn"] = admin.username;
+                            currentUser["type"] = admin.type;
+                            window.open("main.html", "_self");
+                            localStorage.setItem("currentUser", JSON.stringify(currentUser));
+                            approved = true;
+                            break;
+                        }
+                    }
+                    if(!approved) {
+                        wrong.innerHTML = message;
+                        wrong.style.color = "red";
+                        wrong.style.textAlign = "center";
+                    }
+                }
+
+            </script>
+        </body>
+    </html>

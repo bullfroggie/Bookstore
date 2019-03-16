@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+    <html lang="en">
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <meta http-equiv="X-UA-Compatible" content="ie=edge">
+            <link rel="stylesheet" type="text/css" href="../style/main.css">
+            <link href="https://fonts.googleapis.com/css?family=Libre+Barcode+39+Text|Open+Sans:700|Roboto:900" rel="stylesheet">
+            <link rel="icon" href="../images/logo.png">
+            <title>NIKOLA'S BOOKSTORE</title>
+        </head>
+        <body>
+            <header>
+                <nav id="nav">
+                    <img id="logo" src="../images/logo.png">
+                </nav>
+                <div id="headerBatch">
+                    <p id="welcome"><span class="contrastWelcome">wel</span>come <span class="contrastWelcome">book</span>worm</p>
+                    <a href="#jump"><img id="arrow" src="../images/arrow.png" width="70px" height="70px"></a>
+                </div>
+            </header>
+            <div id="mainVid">
+                <video autoplay loop muted>
+                    <source src="../The Joy of Books.mp4" type="video/mp4">
+                </video>
+            </div>
+            <div id="quote">
+                <h2><q>The things I want to know are in books;<br> my best friend is the man who'll get me a book I ain't read.</q></h2>
+                <sub>Abraham Lincoln</sub>
+                <br><br><hr id="jump">
+            </div>
+            <div id="search">
+                <form>
+                    <input id="searchInput" onkeyup="bookSearch(); return false;" type="search" placeholder="        search the bookstore">
+                    <button id="searchBttn" onclick="bookSearch(); return false;" type="submit"><img src="../images/search.png" width="25px" height="23px"></button>
+                </form>
+                <br><p><a href="searchAuthor.html">Search by Author</a></p>
+            </div>
+            <br><br>
+            <div id="container"></div>
+            <main id="main">
+
+            </main>
+            <footer>
+                <div id="footerBatch">
+                    <p><b>Copyright© 2018 by <a href="https://github.com/bullfroggie">Nikola Lausev</a></b></p>
+                </div>
+            </footer>
+
+            <script type="text/javascript">
+
+                function getBooksFromLocalStorage() {
+                    let books = JSON.parse(window.localStorage.getItem("books"));
+                    return books;
+                }
+
+                function quantitySum() {
+                    let books = JSON.parse(window.localStorage.getItem("currentUser"));
+                    let sum = 0;
+
+                    for(let user of books.cart) {
+                        sum += user.cartBookQuantity;
+                    }
+
+                    return sum;
+                }
+
+                function dedicatedMenu() {
+                    let currentUser = JSON.parse(window.localStorage.getItem("currentUser"));
+                    let nav = document.getElementById("nav");
+
+                    if(currentUser.type == "user") {
+                        let navMenu = document.createElement("ul");
+                        nav.appendChild(navMenu);
+                        let li1 = document.createElement("li");
+                        let li2 = document.createElement("li");
+                        let li3 = document.createElement("li");
+                        let li4 = document.createElement("li");
+                        let li5 = document.createElement("li");
+                        let anch1 = document.createElement("a");
+                        anch1.href = "main.html";
+                        anch1.innerHTML = "MAIN MENU";
+                        li1.appendChild(anch1);
+                        let anch2 = document.createElement("a");
+                        anch2.href = "aboutUs.html";
+                        anch2.innerHTML = "ABOUT US";
+                        li2.appendChild(anch2);
+                        let anch3 = document.createElement("a");
+                        anch3.href = "profile.html";
+                        anch3.innerHTML = `${currentUser.loggedIn}'s PROFILE`;
+                        anch3.setAttribute("id", "loggedIn");
+                        li3.appendChild(anch3);
+                        let anch4 = document.createElement("a");
+                        anch4.href = "shoppingCart.html";
+                        anch4.setAttribute("id", "cart");
+                        li4.appendChild(anch4);
+                        let anch5 = document.createElement("a");
+                        anch5.innerHTML = "SIGN OUT";
+                        anch5.href = "login.html";
+                        li5.appendChild(anch5);
+                        navMenu.appendChild(li5);
+                        navMenu.appendChild(li4);
+                        navMenu.appendChild(li3);
+                        navMenu.appendChild(li2);
+                        navMenu.appendChild(li1);
+                    }
+                    if(currentUser.type == "admin") {
+                        let navMenu = document.createElement("ul");
+                        nav.appendChild(navMenu);
+                        let li1 = document.createElement("li");
+                        let li2 = document.createElement("li");
+                        let li3 = document.createElement("li");
+                        let li4 = document.createElement("li");
+                        let anch1 = document.createElement("a");
+                        anch1.href = "main.html";
+                        anch1.innerHTML = "MAIN MENU";
+                        li1.appendChild(anch1);
+                        let anch2 = document.createElement("a");
+                        anch2.href = "newBookAdding.html";
+                        anch2.innerHTML = "ADD A NEW BOOK";
+                        li2.appendChild(anch2);
+                        let anch3 = document.createElement("a");
+                        anch3.href = "adminRegistration.html";
+                        anch3.innerHTML = "ADMIN REGISTRATION";
+                        li3.appendChild(anch3);
+                        let anch4 = document.createElement("a");
+                        anch4.href = "login.html";
+                        anch4.innerHTML = "SIGN OUT";
+                        li4.appendChild(anch4);
+                        navMenu.appendChild(li4);
+                        navMenu.appendChild(li3);
+                        navMenu.appendChild(li2);
+                        navMenu.appendChild(li1);
+                    }
+                }
+
+                document.body.onload = function() {
+                    // Function for initializing the main menu
+                    
+                    defaultBooks();
+                    bookCreation(getBooksFromLocalStorage());
+                    dedicatedMenu();
+
+                    let loggedInAs = document.getElementById("loggedIn");
+                    let loggedInUser = JSON.parse(window.localStorage.getItem("currentUser"));
+                    let cart = document.getElementById("cart");
+                    if(loggedInUser.type == "user") {
+                        loggedInAs.innerHTML = `${loggedInUser.loggedIn}'S PROFILE`;
+                        cart.innerHTML = `${quantitySum()}  <img src="../images/cart.png" width="15px" height="15px">`;
+                    }
+                }
+                    
+                function defaultBooks() {
+                    // Function for adding default admins to the Local Storage if they don't exist already
+                    
+                    if(!localStorage["books"]) {
+                        let defaultBooks = [
+                            {
+                                "ISBN": "318806",
+                                "name": "THE ART OF WAR",
+                                "author": "Sun Tzu",
+                                "releaseDate": "2017-01-02",
+                                "numAvailable": "111",
+                                "price": 14.99,
+                                "cover": "../images/Book-Covers/book1.jpg",
+                                "description": `The Art of War is the oldest and most influential military strategy text in existence,
+                                                and Sun Tzu's teachings on how to successfully respond to and handle situations of conflict 
+                                                is a must-read for for today's business leaders
+                                                (and politicians, and many others). Whether you approach this reading for its historical significance or 
+                                                choose to apply this knowledge toward achieving success in your own life, you will be enlightened.
+                                                This elegantly designed clothbound edition features an elastic closure and a new introduction. ` 
+                            },
+                            {
+                                "ISBN": "264905",
+                                "name": "ELEVATION",
+                                "author": "Stephen King",
+                                "releaseDate": "2018-04-05",
+                                "numAvailable": "55",
+                                "price": 10.99,
+                                "cover": "../images/Book-Covers/book2.jpg",
+                                "description": `Castle Rock is a small town, where word gets around quickly.
+                                                That's why Scott Carey wants to confide only in his friend Doctor Bob Ellis about his strange condition:
+                                                he's losing weight, without getting thinner, and the scales register the same when he is in his clothes or out of them,
+                                                however heavy they are.
+                                                Scott also has new neighbours, who have opened a 'fine dining experience' in town,
+                                                although it's an experience being shunned by the locals; Deidre McComb and her wife Missy Donaldson don't exactly fit in
+                                                with the community's expectations. And now Scott seems trapped in a feud with the couple over their dogs dropping their
+                                                business on his lawn. Missy may be friendly, but Deidre is cold as ice.
+                                                As the town prepares for its annual Thanksgiving 12k run, Scott starts to understand the prejudices his neighbours face
+                                                and he tries to help. Unlikely alliances form and the mystery of Scott's affliction brings out the best in people who have
+                                                indulged the worst in themselves and others. ` 
+                            },
+                            {
+                                "ISBN": "135900",
+                                "name": "LIGHT YEARS",
+                                "author": "Kass Morgan",
+                                "releaseDate": "2016-03-02",
+                                "numAvailable": "78",
+                                "price": 24.99,
+                                "cover": "../images/Book-Covers/book3.jpg",
+                                "description": `Reeling from the latest attack by a mysterious enemy, the Quatra Fleet Academy is finally admitting students from every
+                                                planet in the solar system after centuries of exclusivity.
+
+                                                Hotshot pilot Vesper, an ambitious Tridian citizen, dreams of becoming a captain - but when she loses her spot to a brilliant,
+                                                wisecracking boy from the wrong side of the asteroid belt, it makes her question everything she thought she knew. Growing up on the toxic planet Deva,
+                                                Cormak will take any chance he can get to escape his dead-end life and join the Academy - even if he has to steal someone's identity to do it.
+                                                Arran was always considered an outsider on icy Chetire, always dreaming of something more than a life working in the mines. Now an incoming cadet,
+                                                Arran is looking for a place to belong - he just never thought that place would be in the arms of a Tridian boy. And Orelia is hiding a dark secret
+                                                - she's infiltrated the Academy to complete a mission, one that threatens the security of everyone there. But if anyone finds out who she really is,
+                                                it'll be her life on the line.
+                                
+                                                These cadets will have to put their differences aside and become a team to defend their world from a cunning enemy
+                                                - but the danger might be lurking closer to home than they think . ` 
+                            },
+                            {
+                                "ISBN": "297200",
+                                "name": "THE REVENANT",
+                                "author": "Michael Punke",
+                                "releaseDate": "2015-02-02",
+                                "numAvailable": "150",
+                                "price": 12.99,
+                                "cover": "../images/Book-Covers/book4.jpg",
+                                "description": `THE BOOK THAT INSPIRED THE MOVIE
+
+                                                The novel that inspired Alejandro González Iñárritu’s epic new movie starring Leonardo DiCaprio and Tom Hardy.
+                                
+                                                BLOOD LOST. LIFE FOUND.
+                                
+                                                Hugh Glass isn’t afraid to die. He’s done it once already.
+                                
+                                                Rocky Mountains, 1823
+                                
+                                                When expert tracker Glass is viciously mauled by a bear, death seems inevitable.
+                                                The two men ordered to remain with him until he dies flee, stripping him of his rifle and hatchet and leaving him to die alone.
+                                
+                                                But soon a grim, horribly scarred figure is seen wandering, asking after two men, one with a gun that seems too good for him…
+                                
+                                                The Revenant is a remarkable tale of obsession and the lengths that one man will go to for retribution.` 
+                            },
+                            {
+                                "ISBN": "329652",
+                                "name": "A GAME OF GHOSTS",
+                                "author": "John Connolly",
+                                "releaseDate": "2017-11-11",
+                                "numAvailable": "25",
+                                "price": 9.99,
+                                "cover": "../images/Book-Covers/book5.jpg",
+                                "description": `It is deep winter. The darkness is unending.
+
+                                                The private detective named Jaycob Eklund has vanished, and Charlie Parker is dispatched to track him down. Parker's employer,
+                                                Edgar Ross, an agent of the Federal Bureau of Investigation, has his own reasons for wanting Eklund found.
+                                                
+                                                Eklund is no ordinary investigator. He is obsessively tracking a series of homicides and disappearances,
+                                                each linked to reports of hauntings. Now Parker will be drawn into Eklund's world, a realm in which the
+                                                monstrous Mother rules a crumbling criminal empire, in which men strike bargains with angels, and in which
+                                                the innocent and guilty alike are pawns in a game of ghosts . . . ` 
+                            },
+                            {
+                                "ISBN": "299098",
+                                "name": "THE BAZAAR OF BAD DREAMS",
+                                "author": "Stephen King",
+                                "releaseDate": "2018-03-03",
+                                "numAvailable": "111",
+                                "price": 20.99,
+                                "cover": "../images/Book-Covers/book6.jpg",
+                                "description": `There is a treasure here for every reader:
+                                                a man who keeps reliving exactly the same life,
+                                                repeating his mistakes over and over again; a columnist who kills people by writing their obituaries;
+                                                a poignant tale about the end of the human race and a firework competition between neighbours which reaches an explosive climax.` 
+                            },
+                            {
+                                "ISBN": "325250",
+                                "name": "FROM DARKEST SKIES",
+                                "author": "Sam Peters",
+                                "releaseDate": "2017-04-01",
+                                "numAvailable": "66",
+                                "price": 12.99,
+                                "cover": "../images/Book-Covers/book7.jpg",
+                                "description": `After a five year sabbatical following the tragic death of his wife and fellow agent Alysha, Keon Rause returns to the distant colony
+                                                world of Magenta to resume service with the Magentan Intelligence Service. With him he brings an artificial recreation of his wife's personality,
+                                                a simulacrum built from every digital trace she left behind. She has been constructed with one purpose - to discover the truth behind her own death -
+                                                but Keon's relationship with her has grown into something more, something frighteningly dependent, something that verges on love.
+
+                                                Cashing in old favours, Keon uses his return to the Service to take on a series of cases that allow him and the artificial
+                                                Alysha to piece together his wife's last days. His investigations lead him inexorably along the same paths Alysha followed five years earlier,
+                                                to a sinister and deadly group with an unhealthy fascination for the unknowable alien Masters; but as the wider world of Magenta is threatened with an imminent crisis,
+                                                Keon finds himself in a dilemma: do his duty and stand with his team to expose a villainous crime, or sacrifice them all for the truth about his wife?   ` 
+                            },
+                            {
+                                "ISBN": "325230",
+                                "name": "ALTERED CARBON",
+                                "author": "Richard Morgan",
+                                "releaseDate": "2017-09-07",
+                                "numAvailable": "321",
+                                "price": 24.99,
+                                "cover": "../images/Book-Covers/book8.jpg",
+                                "description": `This must-read story is a confident, action-and-violence packed thriller, and future classic noir SF novel from a multi-award-winning author.
+
+                                                Four hundred years from now mankind is strung out across a region of interstellar space inherited from an ancient civilization discovered on Mars.
+                                                The colonies are linked together by the occasional sublight colony ship voyages and hyperspatial data-casting.
+                                                Human consciousness is digitally freighted between the stars and downloaded into bodies as a matter of course.
+                                                
+                                                But some things never change. So when ex-envoy, now-convict Takeshi Kovacs has his consciousness and skills downloaded into the body
+                                                of a nicotine-addicted ex-thug and presented with a catch-22 offer, he really shouldn¿t be surprised. Contracted by a billionaire to
+                                                discover who murdered his last body, Kovacs is drawn into a terrifying conspiracy that stretches across known space and to the very top of society.
+                                                
+                                                For a first-time SF writer to be so surely in command of narrative and technology,
+                                                so brilliant at world-building, so able to write such readable and enjoyable SF adventure, is simply extraordinary. `
+                            },
+                            {
+                                "ISBN": "312313",
+                                "name": "DUNE MESSIAH",
+                                "author": "Frank Herbert",
+                                "releaseDate": "2017-10-10",
+                                "numAvailable": "158",
+                                "price": 9.99,
+                                "cover": "../images/Book-Covers/book9.jpg",
+                                "description": `DUNE MESSIAH: the extraordinary sequel to Dune, the greatest science fiction novel of all time.
+
+                                                Twelve years after his victory over House Harkonnen, Paul Atreides rules as emperor from the desert planet Arrakis
+                                                - but his victory has had profound consequences. War has been brought to the entire known universe, and billions
+                                                have already perished. Despite having become the most powerful emperor known to history, Paul is
+                                                powerless to bring an end to the fighting.
+                                                
+                                                While former allies conspire to dethrone Paul and even his own consort acts against him, Paul accepts a gift
+                                                from the Tleilaxu, a guild of genetic manipulators, hoping to find a single spark of peace and friendship 
+                                                amidst the betrayal and chaos. But this act undermines Paul's support from the Fremen, his own people. The 
+                                                Fremen are the true source of Paul's power; losing them is the one thing that could truly topple his empire.
+                                                
+                                                As matters escalate, Paul will be forced to chose between his throne, his wife, his people and his future - and the future of the entire universe.
+                                                
+                                                An epic novel of the cost of victory... and the price of war.`
+                            },
+                            {
+                                "ISBN": "359032",
+                                "name": "VERMILION SANDS",
+                                "author": "J. G. Ballard",
+                                "releaseDate": "2016-12-12",
+                                "numAvailable": "61",
+                                "price": 13.99,
+                                "cover": "../images/Book-Covers/book10.jpg",
+                                "description": `Vermilion Sands is a fully automated desert-resort designed to fulfil the most exotic whims of the idle rich, but now languishes in uneasy decay,
+                                                populated only by forgotten movie queens, solitary impresarios and the remittance men of the artistic and literary world.
+                                                It is a lair for beachcombers, hangers-on and malignant obsessions - a place where sensitive pigments
+                                                paint portraits of their mistresses in a grotesque parody of art; where prima donna plants are programmed
+                                                to sing operatic arias; where dial-a-poem computers have replaced poets; where psychosensitive houses are
+                                                driven to murder by their owners' neuroses; and where love and lust, in the hands of jewel-eyed Jezebels,
+                                                pall before the stronger pull of evil.`
+                            },
+                            {
+                                "ISBN": "298578",
+                                "name": "SOLARIS",
+                                "author": "Stanislaw Lem",
+                                "releaseDate": "2016-01-01",
+                                "numAvailable": "91",
+                                "price": 5.99,
+                                "cover": "../images/Book-Covers/book11.jpg",
+                                "description": `When Kris Kelvin arrives at the planet Solaris to study the ocean that covers its surface he is forced to confront a painful,
+                                                hitherto unconscious memory embodied in the physical likeness of a long-dead lover.
+                                                Others suffer from the same affliction and speculation rises among scientists that the Solaris
+                                                ocean may be a massive brain that creates incarnate memories,
+                                                but its purpose in doing so remains a mystery . . .
+
+                                                Solaris raises a question that has been at the heart of human experience and literature for centuries:
+                                                can we truly understand the universe around us without first understanding what lies within? `
+                            },
+                            {
+                                "ISBN": "309451",
+                                "name": "BURNING CHROME",
+                                "author": "William Gibson",
+                                "releaseDate": "2017-07-05",
+                                "numAvailable": "99",
+                                "price": 17.99,
+                                "cover": "../images/Book-Covers/book12.jpg",
+                                "description": `Best-known for his seminal sf novel NEUROMANCER, William Gibson is also a master of short fiction.
+                                                Tautly-written and suspenseful, BURNING CHROME collects 10 of his best short stories with a preface from Bruce Sterling,
+                                                co-Cyberpunk and editor of the seminal anthology MIRRORSHADES. These brilliant, high-resolution stories show Gibson's
+                                                characters and intensely-realized worlds at his absolute best. Contains 'Johnny Mnemonic' (filmed starring Keanu Reeves)
+                                                and title story 'Burning Chrome' - both nominated for the Nebula Award -
+                                                as well as the Hugo-and-Nebula-nominated stories 'Dogfight' and 'The Winter Market'. ` 
+                            },
+                            {
+                                "ISBN": "288219",
+                                "name": "THE PERIPHERAL",
+                                "author": "William Gibson",
+                                "releaseDate": "2017-08-03",
+                                "numAvailable": "89",
+                                "price": 20.99,
+                                "cover": "../images/Book-Covers/book13.jpg",
+                                "description": `Flynne Fisher lives in rural near-future America where jobs are scarce and veterans from the wars are finding it hard to recover.
+                                                She scrapes a living doing some freelance online game-playing, participating in some pretty weird stuff.
+                                                Wilf Netherton lives in London, seventy-some years later, on the far side of decades of slow-motion apocalypse.
+                                                Things though are good for the haves, and there aren't many have-nots left. 
+                                                Flynne and Wilf are about to meet one another. Her world will be altered utterly,
+                                                and Wilf's, for all its decadence and power, will learn that some of these third-world types from the distant past can be real badass.` 
+                            },
+                            {
+                                "ISBN": "288211",
+                                "name": "IDORU",
+                                "author": "William Gibson",
+                                "releaseDate": "2017-02-01",
+                                "numAvailable": "79",
+                                "price": 15.99,
+                                "cover": "../images/Book-Covers/book14.jpg",
+                                "description": `After an attack of scruples, Colin Laney's skipped out on his former employer Slitscan -
+                                                avoiding the rash of media lawyers sent his way - and taken a job for the outfit managing Japanese rock duo,
+                                                Lo/Rez. Rez has announced he's going to marry an 'idoru' by the name of Rei Toi - she exists only in virtual reality 
+                                                - and this creates complications that Laney, a net runner, is supposed to sort out. But when Chai, part of Lo/Rez's fan club,
+                                                turns up unaware that she's carrying illegal nanoware for the Russian Kombinat, Laney's scruples nudge him towards trouble all over again.
+                                                And this time lawyers'll be the least of his worries . . .
+
+                                                William Gibson is a prophet and a satirist, a black comedian and an outstanding architect of cool.
+                                                Readers of Neal Stephenson, Ray Bradbury and Iain M. Banks will love this book. Idoru is the second
+                                                novel in the Bridge trilogy - read Virtual Light and All Tomorrow's Parties for more.`
+                            },
+                            {
+                                "ISBN": "285043",
+                                "name": "DUNE",
+                                "author": "Frank Herbert",
+                                "releaseDate": "2017-07-07",
+                                "numAvailable": "111",
+                                "price": 14.99,
+                                "cover": "../images/Book-Covers/book15.jpg",
+                                "description": `Before The Matrix, before Star Wars, before Ender's Game and Neuromancer,
+                                                there was Dune: winner of the prestigious Hugo and Nebula awards,
+                                                and widely considered one of the greatest science fiction novels ever written.
+
+                                                Melange, or 'spice', is the most valuable - and rarest - element in the universe;
+                                                a drug that does everything from increasing a person's life-span to making intersteller travel possible.
+                                                And it can only be found on a single planet: the inhospitable desert world Arrakis.
+                                                
+                                                Whoever controls Arrakis controls the spice. And whoever controls the spice controls the universe.
+                                                
+                                                When the Emperor transfers stewardship of Arrakis from the noble House Harkonnen to House Atreides,
+                                                the Harkonnens fight back, murdering Duke Leto Atreides. Paul, his son, and Lady Jessica, his concubine,
+                                                flee into the desert. On the point of death, they are rescued by a band for Fremen, the native people of Arrakis,
+                                                who control Arrakis' second great resource: the giant worms that burrow beneath the burning desert sands.
+                                                
+                                                In order to avenge his father and retake Arrakis from the Harkonnens,
+                                                Paul must earn the trust of the Fremen and lead a tiny army against the innumerable forces aligned against them.
+                                                
+                                                And his journey will change the universe. `
+                            }
+                        ];
+                        window.localStorage.setItem("books", JSON.stringify(defaultBooks));
+                    }
+                }
+
+
+                function bookCreation(books) {
+                    let container = document.getElementById("container");
+                    container.innerHTML = "";
+                    let currentUser = JSON.parse(window.localStorage.getItem("currentUser"));
+                    let welcome = document.getElementById("welcome");
+                    if(currentUser.type == "admin") {
+                        welcome.innerHTML = `<span class="contrastWelcome">wel</span>come <span class="contrastWelcome">ad</span>min`;
+                    }
+
+                    for (let book of books) {
+
+                        let bookCard = document.createElement("div");
+                        bookCard.classList.add("book");
+                        container.appendChild(bookCard);
+    
+                        let figure = document.createElement("figure");
+                        bookCard.appendChild(figure);
+
+                        let detailedBookPath = document.createElement("a");
+                        detailedBookPath.href = `detailedBook.html?${book.ISBN}`;
+                        figure.appendChild(detailedBookPath);
+    
+                        let cover = document.createElement("img");
+                        cover.src = book.cover;
+                        cover.style.width = "175px";
+                        cover.style.height = "270px";
+                        cover.style.borderRadius = "7px";
+                        detailedBookPath.appendChild(cover);
+    
+                        let figcaption = document.createElement("figcaption");
+                        figcaption.innerHTML = `<span id="figColor">${book.name}</span><br>${book.author}`;
+                        figure.appendChild(figcaption);
+                    }
+                }
+
+
+                function bookSearch() {
+                    let books = getBooksFromLocalStorage();
+                    let searchInput = document.getElementById("searchInput").value.toLowerCase();
+                    
+                    let searchedBooks = [];
+
+                    for (book of books) {
+                        if (book.name.toLowerCase().includes(searchInput)) {
+                            searchedBooks.push(book);
+                        }
+                    }
+                    bookCreation(searchedBooks);
+                }
+                    
+            </script>
+        </body>
+    </html>

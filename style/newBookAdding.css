@@ -1,0 +1,154 @@
+* {
+    margin: 0px;
+    padding: 0px;
+}
+
+html, body {
+    max-width: 100%;
+    overflow-x: hidden;
+}
+
+header {
+    width: 100%;
+}
+
+
+footer {
+    width: 100%;
+    height: 50px;
+    padding: 0px 15px;
+    background-color: #FFC400;
+    bottom: 0px;
+    position: relative;
+}
+
+#logo {
+    height: 170px;
+    width: 170px;
+    margin-left: 25px;
+    float: left;
+}
+
+#footerBatch {
+    width: 320px;
+    height: 50px;
+    margin: 0px auto;
+}
+
+#footerBatch p {
+    padding-top: 15px;
+    text-align: center;
+}
+
+#footerBatch p a {
+    text-decoration: none;
+}
+
+ul {
+    margin-top: 20px;
+    padding-bottom: 50px;
+    list-style-type: none;
+    position: inherit;
+}
+
+li {
+    display: block;
+    float: right;
+}
+
+li a {
+    color: #FFC400;
+    padding: 15px 35px;
+    text-decoration: none;
+    background-color: #000000;
+    margin-left: 2px;
+    border-radius: 10px 0px;
+    cursor: pointer;
+    font-family: 'Open Sans', sans-serif;
+    box-shadow: 12px 10px 13px 1px rgba(0,0,0,0.75);
+}
+
+li a:hover {
+    background-color: #FFC400;
+    color: #000000;
+}
+
+button[type=button]:hover {
+    background-color: orange;
+}
+
+form[name=addBook] {
+    font-family: "Open Sans", sans-serif;
+    margin: 6% auto;
+    width: 300px;
+    padding: 30px 25px;
+    background-color: black;
+    border-radius: 15px;
+}
+  
+h1.bookAddHeader {
+border-radius: 15px;
+margin: -28px -25px 25px;
+padding: 15px 25px;
+line-height: 30px;
+font-size: 50px;
+font-family: 'Libre Barcode 39 Text', cursive;
+font-weight: 300px;
+color: white;
+text-align:center;
+background: #000000;
+
+}
+
+.bookCreation {
+width: 285px;
+height: 50px;
+margin-bottom: 25px;
+padding-left:10px;
+font-size: 15px;
+background: #fff;
+border: 1px solid #ccc;
+border-radius: 4px;
+}
+.bookCreation:focus {
+    border-color:#6e8095;
+    outline: none;
+}
+
+.confirmBttn {
+font-family: "Open Sans", sans-serif;
+width: 100%;
+height: 50px;
+padding: 0px;
+font-size: 20px;
+color: #fff;
+text-align: center;
+background: #FFC400;
+border: 0px;
+border-radius: 5px;
+cursor: pointer; 
+outline:0px;
+}
+
+label, sub {
+    color: white;
+    font-family: "Open Sans", sans-serif;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0px;
+}
+
+input {
+  -moz-appearance: textfield;
+}
+
+textarea {
+    font-family: "Open Sans", sans-serif;
+    width: 295px;
+    resize: vertical;
+    color: black;
+    height: 100px;
+}

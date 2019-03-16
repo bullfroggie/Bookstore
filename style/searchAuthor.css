@@ -1,0 +1,172 @@
+* {
+    margin: 0px;
+    padding: 0px;
+}
+
+select{
+    height: 30px;
+    width: 150px;
+    float: left;
+    border: none;
+    cursor: pointer;
+    border-radius: 1000px;
+    font-family: 'Open Sans', sans-serif;
+}
+
+html, body {
+    max-width: 100%;
+    overflow-x: hidden;
+}
+
+#container {
+    overflow: hidden;
+    margin-top: 6%;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    grid-row-gap: 30px;
+    padding-bottom: 60px;
+}
+
+.book {
+    padding: 20px;
+    font-size: 20px;
+    text-align: center;
+}
+
+.book:hover img {
+    background-color: black;
+}
+
+.book:hover img {
+    opacity: 0.8;
+}
+
+
+figcaption {
+    color: #FFC400;
+}
+
+#figColor {
+    font-family: 'Open Sans', sans-serif;
+    color: black;
+}
+
+header {
+    width: 100%;
+}
+
+.welcome {
+    font-family: 'Libre Barcode 39 Text', cursive;
+    font-size: 60px;
+    padding-top: 20px;
+    padding-bottom: 15px;
+    text-align: center;
+}
+
+footer {
+    position:relative;
+    bottom:0px;
+    width:100%;
+    height:60px;
+    background-color: #FFC400;
+}
+
+#logo {
+    position: fixed;
+    left: 0px;
+    height: 170px;
+    width: 170px;
+    margin-left: 25px;
+    float: left;
+}
+
+#headerBatch {
+    clear: both;
+    width: 320px;
+    margin: 0px auto;
+    text-align: center;
+}
+
+#footerBatch {
+    width: 320px;
+    height: 50px;
+    margin: 0px auto;
+}
+
+#footerBatch p {
+    padding-top: 15px;
+    text-align: center;
+}
+
+#footerBatch p a {
+    text-decoration: none;
+}
+
+ul {
+    margin-top: 20px;
+    padding-bottom: 50px;
+    list-style-type: none;
+    float: right;
+}
+
+li {
+    display: block;
+    float: right;
+}
+
+li a {
+    color: #FFC400;
+    padding: 15px 35px;
+    text-decoration: none;
+    background-color: #000000;
+    margin-left: 2px;
+    border-radius: 10px 0px;
+    cursor: pointer;
+    font-family: 'Open Sans', sans-serif;
+    box-shadow: 12px 10px 13px 1px rgba(0,0,0,0.75);
+}
+
+li a:hover {
+    background-color: #FFC400;
+    color: #000000;
+}
+
+#search {
+    display: block;
+    float: right;
+    margin-right: 8.3%;
+    border: 3px solid #FFC400;
+    border-radius: 1000px;
+    padding: 5px;
+    background-color: #FFC400;
+}
+
+#search p {
+    color: #757575;
+    background-color: white;
+    border-radius: 15px;
+    cursor: pointer;
+    text-align: center;
+    margin-top: -10px;
+}
+
+#search p a {
+    text-decoration: none;
+    color: #757575;
+}
+
+#search p:hover {
+    background-color: orange;
+}
+
+#search p a:hover {
+    color: white;
+}
+
+select:focus {
+    outline: none;
+}
+
+span {
+    color: #FFC400;
+}

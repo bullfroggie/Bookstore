@@ -1,0 +1,164 @@
+* {
+    margin: 0px;
+    padding: 0px;
+}
+
+
+html, body {
+    max-width: 100%;
+    overflow-x: hidden;
+    height: 100%;
+}
+
+
+header {
+    width: 100%;
+}
+
+
+footer {
+    position: absolute;
+    bottom:0px;
+    width:100%;
+    height:60px;
+    background-color: #FFC400;
+    clear: both;
+}
+
+#logo {
+    position: fixed;
+    left: 0px;
+    height: 170px;
+    width: 170px;
+    margin-left: 25px;
+    float: left;
+    clear: both;
+}
+
+
+#footerBatch {
+    width: 320px;
+    height: 50px;
+    margin: 0px auto;
+}
+
+#footerBatch p {
+    padding-top: 15px;
+    text-align: center;
+}
+
+#footerBatch p a {
+    font-size: 15px;
+    text-decoration: none;
+}
+
+ul {
+    margin-top: 20px;
+    padding-bottom: 50px;
+    list-style-type: none;
+    float: right;
+}
+
+li {
+    display: block;
+    float: right;
+}
+
+li a {
+    color: #FFC400;
+    padding: 15px 35px;
+    text-decoration: none;
+    background-color: #000000;
+    margin-left: 2px;
+    border-radius: 10px 0px;
+    cursor: pointer;
+    font-family: 'Open Sans', sans-serif;
+    box-shadow: 12px 10px 13px 1px rgba(0,0,0,0.75);
+}
+
+li a:hover {
+    background-color: #FFC400;
+    color: #000000;
+}
+
+
+#profile {
+    box-shadow: 0px 4px 8px 0px rgba(0, 0, 0, 0.2);
+    max-width: 300px;
+    margin-bottom: 15px;
+    text-align: center;
+    float: left;
+    box-shadow: -10px 5px 15px gray;
+    font-family: 'Open Sans', sans-serif;
+    width: 300px;
+    margin-left: 75px;
+    margin-right: 40px;
+  }
+
+#profilePicture {
+    width: 100%;
+}
+  
+.description {
+color: orange;
+font-size: 18px;
+}
+
+button:hover, a:hover {
+background-color: orange;
+}
+
+#name {
+    color: black;
+}
+  
+button {
+border: none;
+outline: 0px;
+display: inline-block;
+padding: 8px;
+color: white;
+background-color: #FFC400;
+text-align: center;
+cursor: pointer;
+width: 100%;
+font-size: 18px;
+}
+
+#profile a {
+text-decoration: none;
+color: white;
+font-size: 22px;
+font-family: 'Open Sans', sans-serif;
+}
+
+#aboutMe, #favBooks, #favQuotes {
+    margin-bottom: 15px;
+    text-align: center;
+    font-family: 'Open Sans', sans-serif;
+    color: #FFC400;
+}
+
+
+
+#aboutMe p, #favBooks p, #favQuotes p {
+    font-family: 'Roboto', sans-serif;
+    margin-right: 3%;
+    margin-left: 3%;
+    text-align: center;
+    color: black;
+}
+
+
+fieldset {
+    margin-top: 250px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    padding-left: 15px;
+    padding-right: 15px;
+    margin-left: 25%;
+    margin-right: 25%;
+    margin-bottom: 10%;
+    border: none;
+    font-family: 'Roboto', sans-serif;
+}

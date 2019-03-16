@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+    <html lang="en">
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <meta http-equiv="X-UA-Compatible" content="ie=edge">
+            <link rel="stylesheet" type="text/css" href="../style/detailedBook.css">
+            <link href="https://fonts.googleapis.com/css?family=Libre+Barcode+39+Text|Open+Sans:700|Roboto:900" rel="stylesheet">
+            <link rel="icon" href="../images/logo.png">
+            <title id="tabTitle"></title>
+        </head>
+        <body>
+            <header id="nav">
+                <img id="logo" src="../images/logo.png">
+            </header>
+            <main>
+                <fieldset id="fieldCard">
+                </fieldset>
+            </main>
+            <footer>
+                <div id="footerBatch">
+                    <p><b>Copyright© 2018 by <a href="https://github.com/bullfroggie">Nikola Lausev</a></b></p>
+                </div>
+            </footer>
+            <script type="text/javascript">
+                function getBooksFromLocalStorage() {
+                    let books = JSON.parse(window.localStorage.getItem("books"));
+                    return books;
+                }
+
+                function quantitySum() {
+                    let books = JSON.parse(window.localStorage.getItem("currentUser"));
+                    let sum = 0;
+
+                    for(let user of books.cart) {
+                        sum += user.cartBookQuantity;
+                    }
+                    return sum;
+                }
+
+                function admin() {
+                    let path = window.location.search.substring(1);
+                    let nav = document.getElementById("nav");
+                    let navMenu = document.createElement("ul");
+                    nav.appendChild(navMenu);
+                    let li1 = document.createElement("li");
+                    let li2 = document.createElement("li");
+                    let li3 = document.createElement("li");
+                    let li4 = document.createElement("li");
+                    let anch1 = document.createElement("a");
+                    anch1.href = "main.html";
+                    anch1.innerHTML = "MAIN MENU";
+                    li1.appendChild(anch1);
+                    let anch2 = document.createElement("a");
+                    anch2.href = "newBookAdding.html";
+                    anch2.innerHTML = "ADD A NEW BOOK";
+                    li2.appendChild(anch2);
+                    let anch3 = document.createElement("a");
+                    anch3.href = "adminRegistration.html";
+                    anch3.innerHTML = "ADMIN REGISTRATION";
+                    li3.appendChild(anch3);
+                    let anch4 = document.createElement("a");
+                    anch4.href = "login.html";
+                    anch4.innerHTML = "SIGN OUT";
+                    li4.appendChild(anch4);
+                    navMenu.appendChild(li2);
+                    navMenu.appendChild(li1);
+
+                    let formCard = document.getElementById("formCard");
+
+                    let bttn = document.createElement("button");
+                    let bttnAnch = document.createElement("a");
+                    bttnAnch.href = `bookEdit.html?${path}`;
+                    bttnAnch.appendChild(bttn);
+                    bttn.type = "button";
+                    bttn.style.fontSize = "20px";
+                    bttn.style.marginRight = "-25px";
+                    bttn.style.padding = "10px";
+                    bttn.innerHTML = "EDIT THIS BOOK";
+                    bttn.setAttribute("id", "addToCart");
+                    formCard.appendChild(bttnAnch);
+
+                    let deleteBttn = document.createElement("button");
+                    deleteBttn.setAttribute("id", "deleteBttn");
+                    deleteBttn.setAttribute("onclick", "removeBook();");
+                    formCard.appendChild(deleteBttn);
+
+                    let delAnch = document.createElement("a");
+                    delAnch.href = "main.html";
+                    delAnch.innerHTML = "REMOVE";
+                    deleteBttn.appendChild(delAnch);
+                }
+
+                function user(){
+                    let nav = document.getElementById("nav");
+                    let navMenu = document.createElement("ul");
+                    nav.appendChild(navMenu);
+                    let li1 = document.createElement("li");
+                    let li2 = document.createElement("li");
+                    let li3 = document.createElement("li");
+                    let li4 = document.createElement("li");
+                    let li5 = document.createElement("li");
+                    let anch1 = document.createElement("a");
+                    anch1.href = "main.html";
+                    anch1.innerHTML = "MAIN MENU";
+                    li1.appendChild(anch1);
+                    let anch2 = document.createElement("a");
+                    anch2.href = "aboutUs.html";
+                    anch2.innerHTML = "ABOUT US";
+                    li2.appendChild(anch2);
+                    let anch3 = document.createElement("a");
+                    anch3.href = "profile.html";
+                    anch3.setAttribute("id", "loggedIn");
+                    li3.appendChild(anch3);
+                    let anch4 = document.createElement("a");
+                    anch4.href = "shoppingCart.html";
+                    anch4.setAttribute("id", "cart");
+                    li4.appendChild(anch4);
+                    let anch5 = document.createElement("a");
+                    anch5.href = "login.html";
+                    anch5.innerHTML = "SIGN OUT";
+                    li5.appendChild(anch5);
+                    navMenu.appendChild(li5);
+                    navMenu.appendChild(li4);
+                    navMenu.appendChild(li3);
+                    navMenu.appendChild(li2);
+                    navMenu.appendChild(li1);
+
+                    let formCard = document.getElementById("formCard");
+                    let path = window.location.search.substring(1);
+                    let books = getBooksFromLocalStorage();
+                    let maxQuan = 0;
+
+                    for(let item of books){
+                        if(path == item.ISBN) {
+                            maxQuan = item.numAvailable;
+                            break;
+                        }
+                    }
+                    
+                    let bttn1 = document.createElement("button");
+                    bttn1.type = "button";
+                    bttn1.setAttribute("id", "addToCart");
+                    bttn1.setAttribute("onclick", "addingToCart();");
+                    bttn1.innerHTML = ` Add to cart <img src="../images/addToCart.png" width="20px" height="20px">`;
+        
+                    let input1 = document.createElement("input");
+                    input1.type = "number";
+                    if(maxQuan != 0) {
+                        input1.value = "1";
+                    } else {
+                        input1.value = "0";
+                    }
+                    
+                    input1.step = "1";
+                    input1.min = "0";
+                    input1.max = `${maxQuan}`;
+                    input1.setAttribute("id", "quantity");
+                    let bttn2 = document.createElement("button");
+                    bttn2.type = "button";
+                    bttn2.classList.add("quantityBttn");
+                    bttn2.setAttribute("id", "quantityAdd");
+                    bttn2.setAttribute("onclick", "addQuantity();");
+                    bttn2.innerHTML = `<img src="../images/plus.png" width="18px" height="15px">`;
+                    let bttn3 = document.createElement("button");
+                    bttn3.type = "button";
+                    bttn3.classList.add("quantityBttn");
+                    bttn3.setAttribute("onclick", "removeQuantity();");
+                    bttn3.innerHTML = `<img src="../images/minus.png" width="18px" height="15px">`;
+                    formCard.appendChild(bttn1);
+                    formCard.appendChild(input1);
+                    formCard.appendChild(bttn2);
+                    formCard.appendChild(bttn3);
+                }
+
+                function dedicatedMenu() {
+                    let currentUser = JSON.parse(window.localStorage.getItem("currentUser"));
+
+                    if(currentUser.type == "user") {
+                        user();
+                    }
+                    if(currentUser.type == "admin") {
+                        admin();
+                    }
+                }
+
+                document.body.onload = function() {
+                    // Function for initialization
+                    
+                    let loggedInUser = JSON.parse(window.localStorage.getItem("currentUser"));
+                    getPath();
+                    if(loggedInUser.type == "admin") {
+                        admin();
+                    }
+
+                    if(loggedInUser.type == "user") {
+                        user();
+                        let cart = document.getElementById("cart");
+                        cart.innerHTML = `${quantitySum()}  <img src="../images/cart.png" width="15px" height="15px">`;
+                        let loggedInAs = document.getElementById("loggedIn");
+                        loggedInAs.innerHTML = `${loggedInUser.loggedIn}'S PROFILE`;
+                        
+                    }
+                }
+
+                function removeBook() {
+                    let books = getBooksFromLocalStorage();
+                    let path = window.location.search.substring(1);
+
+                    for (let i = 0; i < books.length; i++) {
+                        if (books[i].ISBN == path) {
+                            books.splice(i,1);
+                            break;
+                        }
+                    }
+                    window.localStorage.setItem("books", JSON.stringify(books));
+                }
+
+
+                function getPath() {
+                    let path = window.location.search.substring(1);
+                    let books =  getBooksFromLocalStorage();
+
+                    for (let book of books) {
+                        if (book.ISBN == path) {
+                            bookInfo(book);
+                            break;
+                        }
+                    }
+                }
+
+                function bookInfo(book) {
+                    let fieldCard = document.getElementById("fieldCard");
+                    fieldCard.innerHTML = "";
+                    
+                    let legend = document.createElement("legend");
+                    legend.setAttribute("id", "bookName");
+                    fieldCard.appendChild(legend);
+
+                    let imgCover = document.createElement("img");
+                    imgCover.setAttribute("id", "cover");
+                    imgCover.width = "450px;";
+                    imgCover.height = "450px;";
+                    fieldCard.appendChild(imgCover);
+
+                    let pDescription = document.createElement("p");
+                    pDescription.setAttribute("id", "bookDescription");
+                    fieldCard.appendChild(pDescription);
+
+                    let sPrice = document.createElement("sup");
+                    sPrice.setAttribute("id", "price");
+                    fieldCard.appendChild(sPrice);
+
+                    let br1 = document.createElement("br");
+                    fieldCard.appendChild(br1);
+
+                    let sBookAuthor = document.createElement("sup");
+                    sBookAuthor.setAttribute("id", "bookAuthor");
+                    fieldCard.appendChild(sBookAuthor);
+
+                    let br2 = document.createElement("br");
+                    fieldCard.appendChild(br2);
+
+                    let sReleaseDate = document.createElement("sup");
+                    sReleaseDate.setAttribute("id", "releaseDate");
+                    fieldCard.appendChild(sReleaseDate);
+
+                    let formCardd = document.createElement("form");
+                    formCardd.setAttribute("id", "formCard");
+                    fieldCard.appendChild(formCardd);
+
+                    legend.innerHTML = book.name;
+                    imgCover.src = book.cover;
+                    pDescription.innerHTML = book.description;
+                    sBookAuthor.innerHTML = `<em>Author: ${book.author}</em>`;
+                    sReleaseDate.innerHTML = `<em>Release date: ${book.releaseDate}</em>`;
+                    sPrice.innerHTML = `<em>Price: ${book.price}$</em>`;
+
+                    document.getElementById("tabTitle").innerHTML = `${book.name} - ${book.author}`;
+
+                    let books = getBooksFromLocalStorage();
+                }
+
+
+                function quantitySum() {
+                    let books = JSON.parse(window.localStorage.getItem("currentUser"));
+                    let sum = 0;
+
+                    for(let user of books.cart) {
+                        sum += user.cartBookQuantity;
+                    }
+                    return sum;
+                }
+
+
+                function addingToCart() {
+                    let loggedInUser = JSON.parse(window.localStorage.getItem("currentUser"));
+                    let cart = document.getElementById("cart");
+
+                    let path = window.location.search.substring(1);
+                    let books =  getBooksFromLocalStorage();
+
+                    let cartBookName = document.getElementById("bookName").value;
+                    let cartBookISBN = path;
+                    let cartBookQuantity = document.getElementById("quantity").value;
+                    let cartBookPrice = document.getElementById("price").value;
+
+                    if(cartBookQuantity == 0) {
+                        alert("We're sorry, but it seems that there are no copies of the book that you're looking for...😞");
+                        alert("Come to think of it... maybe you just set the quantity to 0?🐵")
+                        return;
+                    }
+
+                    let newItem = {
+                        cartBookISBN: null,
+                        cartBookName: null,
+                        cartBookQuantity: 0,
+                        cartBookPrice: 0.00,
+                    };
+                    newItem.cartBookISBN = cartBookISBN;
+                    newItem.cartBookName = cartBookName;
+                    newItem.cartBookQuantity = parseInt(cartBookQuantity);
+                    newItem.cartBookPrice = parseFloat(cartBookPrice);
+
+                    loggedInUser.cart.push(newItem);
+                    
+                    window.localStorage.setItem("currentUser", JSON.stringify(loggedInUser));
+                    
+                    cart.innerHTML = `${quantitySum()}  <img src="../images/cart.png" width="15px" height="15px">`;
+                }
+
+
+                function addQuantity() {
+                    let quantity = document.getElementById("quantity");
+                    quantity.stepUp(1);
+                }
+
+                function removeQuantity() {
+                    let quantity = document.getElementById("quantity");
+                    quantity.stepDown(1);
+                }
+            </script>
+        </body>
+    </html>

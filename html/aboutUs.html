@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+    <html lang="en">
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <meta http-equiv="X-UA-Compatible" content="ie=edge">
+            <link rel="stylesheet" type="text/css" href="../style/aboutUs.css">
+            <link href="https://fonts.googleapis.com/css?family=Libre+Barcode+39+Text|Open+Sans:700|Roboto:900" rel="stylesheet">
+            <link rel="icon" href="../images/logo.png">
+            <title>About us</title>
+        </head>
+        <body>
+            <header>
+                <img id="logo" src="../images/logo.png">
+                <ul>
+                    <li><a href="login.html">SIGN OUT</a></li>
+                    <li><a href="shoppingCart.html" id="cart"></a></li>
+                    <li><a href="profile.html" id="loggedIn">PROFILE</a></li>
+                    <li><a href="aboutUs.html">ABOUT US</a></li>
+                    <li><a href="main.html">MAIN MENU</a></li>
+                </ul>
+                <div id="headerBatch">
+                    <p id="welcome">about us</p>
+                </div>
+            </header>
+            <main>
+                <fieldset>
+                    <legend><h2>WHO WE ARE</h2></legend><br>
+                    <p><span>NIKOLA'S BOOKSTORE</span> is an independent bookseller serving Serbia,
+                    since 1997. We've grown to employ over 530 people across five Serbia-concentrated stores and nikolasbookstore.com,
+                    and our book inventory exceeds two million volumes. In spite of our substantial size and reach,
+                    we remain grounded by our company's core values, which have guided us through the ups and downs of the bookselling industry.
+                    Each and every employee's love of books drives us forward.
+                    </p><br>
+                    <p>
+                        We have an especially intimate relationship with Novi Sad — what other city in Serbia can name a bookstore as its top attraction? We host over 500 author events a year,
+                        in addition to children's storytimes, writing workshops, game demonstrations, and book clubs.
+                        Through nikolasbookstore.com and our expansive online community, we also reach readers around the world, people who are as excited about books as we are.
+                    </p><br>
+                    <p>
+                        We look forward to a future filled with many new opportunities, new innovations, and, of course, new books!
+                    </p><br>
+                </fieldset><br>
+                <fieldset>
+                    <legend><h2>MISSION</h2><br></legend>
+                    <p>
+                        Our mission is to be the world's best destination for readers, a place that fosters a culture of reading and connects people with the books they'll love.
+                    </p><br>
+                </fieldset><br>
+                <fieldset>
+                    <legend><h2>VALUES</h2></legend><br>
+                    <p>
+                        We love everything about books. As entertainment, as tools of discovery, and as timeless works of art, we believe books have the unique ability to transport us and transform our world view.
+                        We're conversation starters. We're an eclectic team of readers with broad interests and strong feelings about the books on our shelves. And we're committed to sharing our knowledge and enthusiasm with our customers every day.
+                        We're nothing without our customers. NIKOLA'S BOOKSTORE would not be the destination it is now without its loyal customers.
+                        We recognize that every reader is different. We know readers are as unique and complex as the books we sell. We, in turn, make every effort to engage with our customers, respond to their needs, and learn from their feedback.
+                        We're creative and resourceful. We built our name on innovative bookselling, and we continue to evolve by remaining curious and inventive.
+                        We support readers and writers. Through literary events, original content, and a vibrant online community, we're dedicated to promoting great authors and their books, literacy, and freedom of expression.
+                        We exchange ideas. We all play a role in NIKOLA'S BOOKSTORE success, and it's the sharing of our unique perspectives that generates exceptional ideas.
+                    </p><br>
+                </fieldset>
+            </main>
+            <footer>
+                <div id="footerBatch">
+                    <p><b>Copyright© 2018 by <a href="https://github.com/bullfroggie">Nikola Lausev</a></b></p>
+                </div>
+            </footer>
+            <script type="text/javascript">
+                document.body.onload = function() {
+                    // Function for initialization
+
+                    let loggedInAs = document.getElementById("loggedIn");
+                    let loggedInUser = JSON.parse(window.localStorage.getItem("currentUser"));
+                    loggedInAs.innerHTML = `${loggedInUser.loggedIn}'S PROFILE`;
+
+                    let cart = document.getElementById("cart");
+                    cart.innerHTML = `${loggedInUser.cart.length}  <img src="../images/cart.png" width="15px" height="15px">`;
+                }
+            </script>
+        </body>
+    </html>
