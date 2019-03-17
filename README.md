@@ -4,9 +4,9 @@ Online Bookstore
 # Getting Started
 To correctly initialize the website you should open the login.html file from the html folder.
 
-# USER DEMO: username: kevRand  pw: hgfdsa
+#### USER DEMO: username: kevRand  pw: hgfdsa
 
-# ADMIN DEMO: username: ana321  pw: lokijuhy
+#### ADMIN DEMO: username: ana321  pw: lokijuhy
 
 .. or just take a look at the beginning of the script -> defaultAdmins/defaultUsers
 
