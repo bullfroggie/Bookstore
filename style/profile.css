@@ -98,6 +98,10 @@ li a:hover {
 #profilePicture {
     width: 100%;
 }
+
+#from {
+    margin-bottom: 25px;
+}
   
 .description {
 color: orange;
@@ -125,7 +129,7 @@ width: 100%;
 font-size: 18px;
 }
 
-#profile a {
+#profile a, button {
 text-decoration: none;
 color: white;
 font-size: 22px;
