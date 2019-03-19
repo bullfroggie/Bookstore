@@ -102,20 +102,18 @@
                             let butt1 = document.createElement("button");
                             let anch1 = document.createElement("a");
                             anch1.href = "profileEdit.html";
-                            anch1.innerHTML = "EDIT PROFILE";
                             butt1.type = "button";
                             let par2 = document.createElement("p");
                             let butt2 = document.createElement("button");
                             let anch2 = document.createElement("a");
                             anch2.href = "purchaseHistory.html";
-                            anch2.innerHTML = "PURCHASE HISTORY";
                             butt2.type = "button";
-                            par1.appendChild(butt1);
-                            butt1.appendChild(anch1);
-                            par2.appendChild(butt2);
-                            butt2.appendChild(anch2);
-                            profileCard.appendChild(par1);
-                            profileCard.appendChild(par2);
+                            butt1.innerHTML = "EDIT PROFILE";
+                            butt2.innerHTML = "PURCHASE HISTORY";
+                            anch1.appendChild(butt1);
+                            anch2.appendChild(butt2);
+                            profileCard.appendChild(anch1);
+                            profileCard.appendChild(anch2);
 
                             let aboutMeCard = document.createElement("div");
                             aboutMeCard.setAttribute("id", "aboutMe");
