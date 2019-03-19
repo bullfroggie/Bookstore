@@ -12,8 +12,6 @@ To correctly initialize the website you should open the login.html file from the
 
 It's not optimized for smaller display aspect ratios.
 
-Only tested in Chrome. (not cross browser optimized)
-
 # Built With
 HTML5, CSS3, and Javascript
 
