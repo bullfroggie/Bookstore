@@ -15,7 +15,7 @@ It's not optimized for smaller display aspect ratios.
 # Built With
 HTML5, CSS3, and Javascript
 
-Uses localStorage as means of storing the store related data.
+Uses localStorage as means of storing the store related data. Therefore, all edits are browser based.
 
 # Author
 Nikola Lausev
