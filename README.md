@@ -1,5 +1,5 @@
 # Bookstore
-Online Bookstore
+Bookstore - Web Store
 
 # Getting Started
 To correctly initialize the website you should open the login.html file from the html folder.
