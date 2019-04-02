@@ -160,14 +160,14 @@ font-family: 'Open Sans', sans-serif;
 
 
 fieldset {
-    margin-top: 250px;
+    margin-top: 150px;
     padding-top: 20px;
     padding-bottom: 20px;
     padding-left: 15px;
     padding-right: 15px;
     margin-left: 25%;
     margin-right: 25%;
-    margin-bottom: 10%;
+    margin-bottom: 15%;
     border: none;
     font-family: 'Roboto', sans-serif;
 }
