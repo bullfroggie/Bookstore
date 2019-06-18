@@ -1,7 +1,6 @@
-# Bookstore
-Bookstore - Web Store
+# Bookstore - Web Store
 
-![Nikola Lausev's Bookstore logo](images/logo.png)
+# ![Nikola Lausev's Bookstore logo](images/logo.png)
 
 # Getting Started
 To correctly initialize the website you should open the login.html file from the html folder.
